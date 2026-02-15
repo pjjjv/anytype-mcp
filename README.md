@@ -135,6 +135,53 @@ Here are some examples of how you can interact with your Anytype:
 - "Add a new object of type 'Task' with title 'Research AI trends' to the 'Project Ideas' space"
 - "Create a second one with title 'Dive deep into LLMs' with due date in 3 days and assign it to me"
 - "Now create a collection with the title "Tasks for this week" and add the two tasks to that list. Set due date of the first one to 10 days from now"
+- "Create multiple objects in a batch using the `create_objects_batch` tool"
+
+## Batch Operations
+
+This server supports batch operations for creating objects. This can be useful for creating a large number of objects at once, which is more efficient than creating them one by one.
+
+The following batch operations are available:
+
+- `create_objects_batch`: Creates multiple objects in a single request.
+
+## Using the AnytypeClient
+
+For developers who want to interact with the Anytype API in their own applications, we provide a convenient `AnytypeClient` class that extends the `HttpClient` and provides a high-level interface for the Anytype API.
+
+### Installation
+
+```bash
+npm install @anyproto/anytype-mcp
+```
+
+### Usage
+
+```typescript
+import { AnytypeClient } from '@anyproto/anytype-mcp';
+
+const client = new AnytypeClient({
+  baseUrl: 'http://127.0.0.1:31009',
+  apiKey: '<YOUR_API_KEY>',
+});
+
+async function createMultipleObjects() {
+  const spaceId = 'your-space-id';
+  const objectsToCreate = [
+    {
+      name: 'Object 1',
+      type_key: 'page',
+    },
+    {
+      name: 'Object 2',
+      type_key: 'page',
+    },
+  ];
+
+  const createdObjects = await client.createObjectsBatch(spaceId, objectsToCreate);
+  console.log(createdObjects);
+}
+```
 
 ## Development
 

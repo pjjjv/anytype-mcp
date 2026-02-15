@@ -180,6 +180,19 @@
         "required": ["type_key"],
         "type": "object"
       },
+      "CreateObjectsRequest": {
+        "properties": {
+          "objects": {
+            "description": "The list of objects to create",
+            "items": {
+              "$ref": "#/components/schemas/CreateObjectRequest"
+            },
+            "type": "array",
+            "uniqueItems": false
+          }
+        },
+        "type": "object"
+      },
       "CreatePropertyRequest": {
         "properties": {
           "format": {
@@ -6635,6 +6648,106 @@
         ],
         "summary": "Get template",
         "tags": ["Templates"]
+      }
+    },
+    "/v1/spaces/{space_id}/objects/batch": {
+      "post": {
+        "description": "Creates multiple objects in a single request.",
+        "operationId": "create_objects_batch",
+        "parameters": [
+          {
+            "description": "The version of the API to use",
+            "in": "header",
+            "name": "Anytype-Version",
+            "required": true,
+            "schema": {
+              "default": "2025-11-08",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The ID of the space in which to create the objects; must be retrieved from ListSpaces endpoint",
+            "in": "path",
+            "name": "space_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateObjectsRequest"
+              }
+            }
+          },
+          "description": "The objects to create",
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ObjectResponse"
+                  }
+                }
+              }
+            },
+            "description": "The created objects"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            },
+            "description": "Bad request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedError"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "Rate limit exceeded"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "bearerauth": []
+          }
+        ],
+        "summary": "Create objects in batch",
+        "tags": ["Objects"]
       }
     }
   },
