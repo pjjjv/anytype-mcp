@@ -34,5 +34,9 @@ describe('McpProxy Batch Operations', () => {
     const updateBatchTool = result.tools.find(tool => tool.name.includes('API-update-objects-batch'));
     expect(updateBatchTool).toBeDefined();
     expect(updateBatchTool.description).toBe('Update objects in batch\nError Responses:\n400: Bad request\n401: Unauthorized\n404: Resource not found\n429: Rate limit exceeded\n500: Internal server error');
+
+    const updatePropertyBatchTool = result.tools.find(tool => tool.name.includes('API-update-objects-property-batch'));
+    expect(updatePropertyBatchTool).toBeDefined();
+    expect(updatePropertyBatchTool.description).toBe('Update objects property in batch\nError Responses:\n400: Bad request\n401: Unauthorized\n404: Resource not found\n429: Rate limit exceeded\n500: Internal server error');
   });
 });

@@ -235,6 +235,32 @@
         },
         "type": "object"
       },
+      "UpdateObjectsPropertyBatchRequest": {
+        "properties": {
+          "property_key": {
+            "type": "string",
+            "description": "The key of the property to update for all specified objects."
+          },
+          "value": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "number" },
+              { "type": "boolean" },
+              { "type": "array", "items": { "type": "string" } }
+            ],
+            "description": "The new value for the property. Type must match the property's format."
+          },
+          "object_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "An array of object IDs to apply the property update to."
+          }
+        },
+        "required": ["property_key", "value", "object_ids"],
+        "type": "object"
+      },
       "CreatePropertyRequest": {
         "properties": {
           "format": {
@@ -6897,6 +6923,116 @@
           }
         ],
         "summary": "Update objects in batch",
+        "tags": ["Objects"]
+      }
+    },
+    "/v1/spaces/{space_id}/objects/properties/batch": {
+      "patch": {
+        "description": "Updates a specific property for multiple objects in a single request.",
+        "operationId": "update_objects_property_batch",
+        "parameters": [
+          {
+            "description": "The version of the API to use",
+            "in": "header",
+            "name": "Anytype-Version",
+            "required": true,
+            "schema": {
+              "default": "2025-11-08",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The ID of the space in which to update the objects; must be retrieved from ListSpaces endpoint",
+            "in": "path",
+            "name": "space_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateObjectsPropertyBatchRequest"
+              }
+            }
+          },
+          "description": "The property update details",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ObjectResponse"
+                  }
+                }
+              }
+            },
+            "description": "The updated objects"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            },
+            "description": "Bad request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedError"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            },
+            "description": "Resource not found"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "Rate limit exceeded"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "bearerauth": []
+          }
+        ],
+        "summary": "Update objects property in batch",
         "tags": ["Objects"]
       }
     }
