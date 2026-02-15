@@ -136,14 +136,16 @@ Here are some examples of how you can interact with your Anytype:
 - "Create a second one with title 'Dive deep into LLMs' with due date in 3 days and assign it to me"
 - "Now create a collection with the title "Tasks for this week" and add the two tasks to that list. Set due date of the first one to 10 days from now"
 - "Create multiple objects in a batch using the `create_objects_batch` tool"
+- "Update multiple objects in a batch using the `update_objects_batch` tool"
 
 ## Batch Operations
 
-This server supports batch operations for creating objects. This can be useful for creating a large number of objects at once, which is more efficient than creating them one by one.
+This server supports batch operations for creating and updating objects. This can be useful for managing a large number of objects efficiently.
 
 The following batch operations are available:
 
 - `create_objects_batch`: Creates multiple objects in a single request.
+- `update_objects_batch`: Updates multiple objects in a single request.
 
 ## Using the AnytypeClient
 
@@ -180,6 +182,23 @@ async function createMultipleObjects() {
 
   const createdObjects = await client.createObjectsBatch(spaceId, objectsToCreate);
   console.log(createdObjects);
+}
+
+async function updateMultipleObjects() {
+  const spaceId = 'your-space-id';
+  const objectsToUpdate = [
+    {
+      object_id: 'object-1',
+      name: 'Updated Object 1',
+    },
+    {
+      object_id: 'object-2',
+      name: 'Updated Object 2',
+    },
+  ];
+
+  const updatedObjects = await client.updateObjectsBatch(spaceId, objectsToUpdate);
+  console.log(updatedObjects);
 }
 ```
 

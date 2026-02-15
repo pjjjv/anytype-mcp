@@ -60,4 +60,48 @@ describe('AnytypeClient', () => {
 
     expect(createdObjects).toEqual(mockResponse);
   });
+
+  test('should update multiple objects in a batch', async () => {
+    const spaceId = 'space-1';
+    const objectsToUpdate = [
+      {
+        object_id: 'object-1',
+        name: 'Updated Object 1',
+      },
+      {
+        object_id: 'object-2',
+        name: 'Updated Object 2',
+      },
+    ];
+
+    const mockResponse = [
+      {
+        id: 'object-1',
+        name: 'Updated Object 1',
+      },
+      {
+        id: 'object-2',
+        name: 'Updated Object 2',
+      },
+    ];
+
+    (client.executeOperation as any).mockResolvedValue({ data: mockResponse });
+
+    const updatedObjects = await client.updateObjectsBatch(spaceId, objectsToUpdate);
+
+    expect(client.executeOperation).toHaveBeenCalledWith(
+      {
+        method: 'patch',
+        path: `/v1/spaces/${spaceId}/objects/batch`,
+        operationId: 'update_objects_batch',
+      },
+      {
+        space_id: spaceId,
+        updates: objectsToUpdate,
+      },
+    );
+
+    expect(updatedObjects).toEqual(mockResponse);
+  });
+
 });

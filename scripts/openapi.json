@@ -193,6 +193,48 @@
         },
         "type": "object"
       },
+      "UpdateObjectBatchRequest": {
+        "properties": {
+          "updates": {
+            "description": "The list of objects to update",
+            "items": {
+              "type": "object",
+              "properties": {
+                "object_id": {
+                  "type": "string",
+                  "description": "The ID of the object to update"
+                },
+                "icon": {
+                  "$ref": "#/components/schemas/Icon"
+                },
+                "markdown": {
+                  "type": "string",
+                  "description": "The updated body of the object"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "The name of the object"
+                },
+                "properties": {
+                  "type": "array",
+                  "description": "The properties to set for the object; see ListTypes or GetType endpoints for linked properties",
+                  "items": {
+                    "$ref": "#/components/schemas/PropertyLinkWithValue"
+                  }
+                },
+                "type_key": {
+                  "type": "string",
+                  "description": "The key of the type of object to set"
+                }
+              },
+              "required": ["object_id"]
+            },
+            "type": "array",
+            "uniqueItems": false
+          }
+        },
+        "type": "object"
+      },
       "CreatePropertyRequest": {
         "properties": {
           "format": {
@@ -6747,6 +6789,114 @@
           }
         ],
         "summary": "Create objects in batch",
+        "tags": ["Objects"]
+      },
+      "patch": {
+        "description": "Updates multiple objects in a single request.",
+        "operationId": "update_objects_batch",
+        "parameters": [
+          {
+            "description": "The version of the API to use",
+            "in": "header",
+            "name": "Anytype-Version",
+            "required": true,
+            "schema": {
+              "default": "2025-11-08",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The ID of the space in which to update the objects; must be retrieved from ListSpaces endpoint",
+            "in": "path",
+            "name": "space_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateObjectBatchRequest"
+              }
+            }
+          },
+          "description": "The objects to update",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ObjectResponse"
+                  }
+                }
+              }
+            },
+            "description": "The updated objects"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            },
+            "description": "Bad request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedError"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            },
+            "description": "Resource not found"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "Rate limit exceeded"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "bearerauth": []
+          }
+        ],
+        "summary": "Update objects in batch",
         "tags": ["Objects"]
       }
     }
