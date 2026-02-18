@@ -44,17 +44,18 @@ describe('AnytypeClient', () => {
 
     (client.executeOperation as any).mockResolvedValue({ data: mockResponse });
 
-    const createdObjects = await client.createObjectsBatch(spaceId, objectsToCreate);
+    const createdObjects = await client.createObjectBatch(spaceId, objectsToCreate);
 
     expect(client.executeOperation).toHaveBeenCalledWith(
-      {
+      expect.objectContaining({
         method: 'post',
-        path: `/v1/spaces/${spaceId}/objects/batch`,
-        operationId: 'create_objects_batch',
-      },
+        path: '/v1/spaces/{space_id}/objects/batch',
+        operationId: 'create_object_batch',
+      }),
       {
         space_id: spaceId,
         objects: objectsToCreate,
+        'Anytype-Version': '1.0.0',
       },
     );
 
@@ -87,17 +88,18 @@ describe('AnytypeClient', () => {
 
     (client.executeOperation as any).mockResolvedValue({ data: mockResponse });
 
-    const updatedObjects = await client.updateObjectsBatch(spaceId, objectsToUpdate);
+    const updatedObjects = await client.updateObjectBatch(spaceId, objectsToUpdate);
 
     expect(client.executeOperation).toHaveBeenCalledWith(
-      {
+      expect.objectContaining({
         method: 'patch',
-        path: `/v1/spaces/${spaceId}/objects/batch`,
-        operationId: 'update_objects_batch',
-      },
+        path: '/v1/spaces/{space_id}/objects/batch',
+        operationId: 'update_object_batch',
+      }),
       {
         space_id: spaceId,
         updates: objectsToUpdate,
+        'Anytype-Version': '1.0.0',
       },
     );
 
@@ -133,16 +135,17 @@ describe('AnytypeClient', () => {
     );
 
     expect(client.executeOperation).toHaveBeenCalledWith(
-      {
+      expect.objectContaining({
         method: 'patch',
-        path: `/v1/spaces/${spaceId}/objects/properties/batch`,
+        path: '/v1/spaces/{space_id}/objects/properties/batch',
         operationId: 'update_objects_property_batch',
-      },
+      }),
       {
         space_id: spaceId,
         property_key: propertyKey,
         value: value,
         object_ids: objectIds,
+        'Anytype-Version': '1.0.0',
       },
     );
 

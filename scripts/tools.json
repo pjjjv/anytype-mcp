@@ -6343,6 +6343,1319 @@
             "$defs": {},
             "description": "The requested template"
           }
+        },
+        {
+          "name": "create-objects-batch",
+          "description": "Create objects in batch\nError Responses:\n400: Bad request\n401: Unauthorized\n429: Rate limit exceeded\n500: Internal server error",
+          "inputSchema": {
+            "$defs": {},
+            "type": "object",
+            "properties": {
+              "space_id": {
+                "type": "string",
+                "description": "The ID of the space in which to create the objects; must be retrieved from ListSpaces endpoint"
+              },
+              "objects": {
+                "type": "array",
+                "description": "The list of objects to create",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "body": {
+                      "type": "string",
+                      "description": "The body of the object"
+                    },
+                    "icon": {
+                      "type": "object",
+                      "description": "The icon of the object, or null if the object has no icon",
+                      "properties": {
+                        "emoji": {
+                          "type": "string",
+                          "description": "The emoji of the icon"
+                        },
+                        "format": {
+                          "type": "string",
+                          "description": "The format of the icon",
+                          "enum": [
+                            "emoji"
+                          ]
+                        }
+                      },
+                      "additionalProperties": true
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "The name of the object"
+                    },
+                    "properties": {
+                      "type": "array",
+                      "description": "The properties to set on the object; see ListTypes or GetType endpoints for linked properties",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "key": {
+                            "type": "string",
+                            "description": "The key of the property",
+                            "examples": [
+                              "last_modified_date"
+                            ]
+                          },
+                          "text": {
+                            "type": "string",
+                            "description": "The text value, if applicable",
+                            "examples": [
+                              "Some text..."
+                            ]
+                          },
+                          "number": {
+                            "type": "number",
+                            "description": "The number value, if applicable",
+                            "examples": [
+                              42
+                            ]
+                          },
+                          "select": {
+                            "type": "string",
+                            "description": "The selected tag id, if applicable",
+                            "examples": [
+                              "tag_id"
+                            ]
+                          },
+                          "multi_select": {
+                            "type": "array",
+                            "description": "The selected tag ids, if applicable",
+                            "items": {
+                              "type": "string"
+                            },
+                            "examples": [
+                              [
+                                "tag_id"
+                              ]
+                            ]
+                          },
+                          "date": {
+                            "type": "string",
+                            "description": "The date value in ISO 8601 format, if applicable",
+                            "examples": [
+                              "2025-02-14T12:34:56Z"
+                            ]
+                          },
+                          "files": {
+                            "type": "array",
+                            "description": "The file ids, if applicable",
+                            "items": {
+                              "type": "string"
+                            },
+                            "examples": [
+                              [
+                                "['file_id']"
+                              ]
+                            ]
+                          },
+                          "checkbox": {
+                            "type": "boolean",
+                            "description": "The checkbox value, if applicable",
+                            "examples": [
+                              true
+                            ]
+                          },
+                          "url": {
+                            "type": "string",
+                            "description": "The url value, if applicable",
+                            "examples": [
+                              "https://example.com"
+                            ]
+                          },
+                          "email": {
+                            "type": "string",
+                            "description": "The email value, if applicable",
+                            "examples": [
+                              "example@example.com"
+                            ]
+                          },
+                          "phone": {
+                            "type": "string",
+                            "description": "The phone number value, if applicable",
+                            "examples": [
+                              "+1234567890"
+                            ]
+                          },
+                          "objects": {
+                            "type": "array",
+                            "description": "The object ids, if applicable",
+                            "items": {
+                              "type": "string"
+                            },
+                            "examples": [
+                              [
+                                "['object_id']"
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "template_id": {
+                      "type": "string",
+                      "description": "The id of the template to use"
+                    },
+                    "type_key": {
+                      "type": "string",
+                      "description": "The key of the type of object to create"
+                    }
+                  },
+                  "required": [
+                    "type_key"
+                  ],
+                  "additionalProperties": true
+                }
+              }
+            },
+            "required": [
+              "space_id"
+            ]
+          },
+          "outputSchema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "object": {
+                  "type": "object",
+                  "description": "The object",
+                  "properties": {
+                    "archived": {
+                      "type": "boolean",
+                      "description": "Whether the object is archived"
+                    },
+                    "icon": {
+                      "type": "object",
+                      "description": "The icon of the object, or null if the object has no icon",
+                      "properties": {
+                        "emoji": {
+                          "type": "string",
+                          "description": "The emoji of the icon"
+                        },
+                        "format": {
+                          "type": "string",
+                          "description": "The format of the icon",
+                          "enum": [
+                            "emoji"
+                          ]
+                        }
+                      },
+                      "additionalProperties": true
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "The id of the object"
+                    },
+                    "layout": {
+                      "type": "string",
+                      "description": "The layout of the object"
+                    },
+                    "markdown": {
+                      "type": "string",
+                      "description": "The markdown body of the object"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "The name of the object"
+                    },
+                    "object": {
+                      "type": "string",
+                      "description": "The data model of the object"
+                    },
+                    "properties": {
+                      "type": "array",
+                      "description": "The properties of the object",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "The id of the property",
+                            "examples": [
+                              "last_modified_date"
+                            ]
+                          },
+                          "key": {
+                            "type": "string",
+                            "description": "The key of the property",
+                            "examples": [
+                              "last_modified_date"
+                            ]
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "The name of the property",
+                            "examples": [
+                              "Last modified date"
+                            ]
+                          },
+                          "object": {
+                            "type": "string",
+                            "description": "The data model of the object",
+                            "examples": [
+                              "property"
+                            ]
+                          },
+                          "text": {
+                            "type": "string",
+                            "description": "The text value, if applicable",
+                            "examples": [
+                              "Some text..."
+                            ]
+                          },
+                          "number": {
+                            "type": "number",
+                            "description": "The number value, if applicable",
+                            "examples": [
+                              42
+                            ]
+                          },
+                          "select": {
+                            "type": "string",
+                            "description": "The selected tag id, if applicable",
+                            "examples": [
+                              "tag_id"
+                            ]
+                          },
+                          "multi_select": {
+                            "type": "array",
+                            "description": "The selected tag ids, if applicable",
+                            "items": {
+                              "type": "string"
+                            },
+                            "examples": [
+                              [
+                                "tag_id"
+                              ]
+                            ]
+                          },
+                          "date": {
+                            "type": "string",
+                            "description": "The date value in ISO 8601 format, if applicable",
+                            "examples": [
+                              "2025-02-14T12:34:56Z"
+                            ]
+                          },
+                          "files": {
+                            "type": "array",
+                            "description": "The file ids, if applicable",
+                            "items": {
+                              "type": "string"
+                            },
+                            "examples": [
+                              [
+                                "['file_id']"
+                              ]
+                            ]
+                          },
+                          "checkbox": {
+                            "type": "boolean",
+                            "description": "The checkbox value, if applicable",
+                            "examples": [
+                              true
+                            ]
+                          },
+                          "url": {
+                            "type": "string",
+                            "description": "The url value, if applicable",
+                            "examples": [
+                              "https://example.com"
+                            ]
+                          },
+                          "email": {
+                            "type": "string",
+                            "description": "The email value, if applicable",
+                            "examples": [
+                              "example@example.com"
+                            ]
+                          },
+                          "phone": {
+                            "type": "string",
+                            "description": "The phone number value, if applicable",
+                            "examples": [
+                              "+1234567890"
+                            ]
+                          },
+                          "objects": {
+                            "type": "array",
+                            "description": "The object ids, if applicable",
+                            "items": {
+                              "type": "string"
+                            },
+                            "examples": [
+                              [
+                                "['object_id']"
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "snippet": {
+                      "type": "string",
+                      "description": "The snippet of the object, especially important for notes as they don't have a name"
+                    },
+                    "space_id": {
+                      "type": "string",
+                      "description": "The id of the space the object is in"
+                    },
+                    "type": {
+                      "type": "object",
+                      "description": "The type of the object, or null if the type has been deleted.",
+                      "properties": {
+                        "archived": {
+                          "type": "boolean",
+                          "description": "Whether the type is archived"
+                        },
+                        "icon": {
+                          "type": "object",
+                          "description": "The icon of the object, or null if the object has no icon",
+                          "properties": {
+                            "emoji": {
+                              "type": "string",
+                              "description": "The emoji of the icon"
+                            },
+                            "format": {
+                              "type": "string",
+                              "description": "The format of the icon",
+                              "enum": [
+                                "emoji"
+                              ]
+                            }
+                          },
+                          "additionalProperties": true
+                        },
+                        "id": {
+                          "type": "string",
+                          "description": "The id of the type (which is unique across spaces)"
+                        },
+                        "key": {
+                          "type": "string",
+                          "description": "The key of the type (can be the same across spaces for known types)"
+                        },
+                        "layout": {
+                          "type": "string",
+                          "description": "The layout of the object",
+                          "enum": [
+                            "basic",
+                            "profile",
+                            "action",
+                            "note",
+                            "bookmark",
+                            "set",
+                            "collection",
+                            "participant"
+                          ]
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "The name of the type"
+                        },
+                        "object": {
+                          "type": "string",
+                          "description": "The data model of the object"
+                        },
+                        "plural_name": {
+                          "type": "string",
+                          "description": "The plural name of the type"
+                        },
+                        "properties": {
+                          "type": "array",
+                          "description": "The properties linked to the type",
+                          "items": {
+                            "type": "object",
+                            "description": "The property",
+                            "properties": {
+                              "format": {
+                                "type": "string",
+                                "description": "The format of the property used for filtering",
+                                "enum": [
+                                  "text",
+                                  "number",
+                                  "select",
+                                  "multi_select",
+                                  "date",
+                                  "files",
+                                  "checkbox",
+                                  "url",
+                                  "email",
+                                  "phone",
+                                  "objects"
+                                ]
+                              },
+                              "id": {
+                                "type": "string",
+                                "description": "The id of the property"
+                              },
+                              "key": {
+                                "type": "string",
+                                "description": "The key of the property"
+                              },
+                              "name": {
+                                "type": "string",
+                                "description": "The name of the property"
+                              },
+                              "object": {
+                                "type": "string",
+                                "description": "The data model of the object"
+                              }
+                            },
+                            "additionalProperties": true
+                          }
+                        }
+                      },
+                      "additionalProperties": true
+                    }
+                  },
+                  "additionalProperties": true
+                }
+              },
+              "additionalProperties": true,
+              "$defs": {},
+              "description": "The created object"
+            },
+            "$defs": {},
+            "description": "The created objects"
+          }
+        },
+        {
+          "name": "update-objects-batch",
+          "description": "Update objects in batch\nError Responses:\n400: Bad request\n401: Unauthorized\n404: Resource not found\n429: Rate limit exceeded\n500: Internal server error",
+          "inputSchema": {
+            "$defs": {},
+            "type": "object",
+            "properties": {
+              "space_id": {
+                "type": "string",
+                "description": "The ID of the space in which to update the objects; must be retrieved from ListSpaces endpoint"
+              },
+              "updates": {
+                "type": "array",
+                "description": "The list of objects to update",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "object_id": {
+                      "type": "string",
+                      "description": "The ID of the object to update"
+                    },
+                    "icon": {
+                      "type": "object",
+                      "description": "The icon of the object, or null if the object has no icon",
+                      "properties": {
+                        "emoji": {
+                          "type": "string",
+                          "description": "The emoji of the icon"
+                        },
+                        "format": {
+                          "type": "string",
+                          "description": "The format of the icon",
+                          "enum": [
+                            "emoji"
+                          ]
+                        }
+                      },
+                      "additionalProperties": true
+                    },
+                    "markdown": {
+                      "type": "string",
+                      "description": "The updated body of the object"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "The name of the object"
+                    },
+                    "properties": {
+                      "type": "array",
+                      "description": "The properties to set for the object; see ListTypes or GetType endpoints for linked properties",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "key": {
+                            "type": "string",
+                            "description": "The key of the property",
+                            "examples": [
+                              "last_modified_date"
+                            ]
+                          },
+                          "text": {
+                            "type": "string",
+                            "description": "The text value, if applicable",
+                            "examples": [
+                              "Some text..."
+                            ]
+                          },
+                          "number": {
+                            "type": "number",
+                            "description": "The number value, if applicable",
+                            "examples": [
+                              42
+                            ]
+                          },
+                          "select": {
+                            "type": "string",
+                            "description": "The selected tag id, if applicable",
+                            "examples": [
+                              "tag_id"
+                            ]
+                          },
+                          "multi_select": {
+                            "type": "array",
+                            "description": "The selected tag ids, if applicable",
+                            "items": {
+                              "type": "string"
+                            },
+                            "examples": [
+                              [
+                                "tag_id"
+                              ]
+                            ]
+                          },
+                          "date": {
+                            "type": "string",
+                            "description": "The date value in ISO 8601 format, if applicable",
+                            "examples": [
+                              "2025-02-14T12:34:56Z"
+                            ]
+                          },
+                          "files": {
+                            "type": "array",
+                            "description": "The file ids, if applicable",
+                            "items": {
+                              "type": "string"
+                            },
+                            "examples": [
+                              [
+                                "['file_id']"
+                              ]
+                            ]
+                          },
+                          "checkbox": {
+                            "type": "boolean",
+                            "description": "The checkbox value, if applicable",
+                            "examples": [
+                              true
+                            ]
+                          },
+                          "url": {
+                            "type": "string",
+                            "description": "The url value, if applicable",
+                            "examples": [
+                              "https://example.com"
+                            ]
+                          },
+                          "email": {
+                            "type": "string",
+                            "description": "The email value, if applicable",
+                            "examples": [
+                              "example@example.com"
+                            ]
+                          },
+                          "phone": {
+                            "type": "string",
+                            "description": "The phone number value, if applicable",
+                            "examples": [
+                              "+1234567890"
+                            ]
+                          },
+                          "objects": {
+                            "type": "array",
+                            "description": "The object ids, if applicable",
+                            "items": {
+                              "type": "string"
+                            },
+                            "examples": [
+                              [
+                                "['object_id']"
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "type_key": {
+                      "type": "string",
+                      "description": "The key of the type of object to set"
+                    }
+                  },
+                  "required": [
+                    "object_id"
+                  ],
+                  "additionalProperties": true
+                }
+              }
+            },
+            "required": [
+              "space_id"
+            ]
+          },
+          "outputSchema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "object": {
+                  "type": "object",
+                  "description": "The object",
+                  "properties": {
+                    "archived": {
+                      "type": "boolean",
+                      "description": "Whether the object is archived"
+                    },
+                    "icon": {
+                      "type": "object",
+                      "description": "The icon of the object, or null if the object has no icon",
+                      "properties": {
+                        "emoji": {
+                          "type": "string",
+                          "description": "The emoji of the icon"
+                        },
+                        "format": {
+                          "type": "string",
+                          "description": "The format of the icon",
+                          "enum": [
+                            "emoji"
+                          ]
+                        }
+                      },
+                      "additionalProperties": true
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "The id of the object"
+                    },
+                    "layout": {
+                      "type": "string",
+                      "description": "The layout of the object"
+                    },
+                    "markdown": {
+                      "type": "string",
+                      "description": "The markdown body of the object"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "The name of the object"
+                    },
+                    "object": {
+                      "type": "string",
+                      "description": "The data model of the object"
+                    },
+                    "properties": {
+                      "type": "array",
+                      "description": "The properties of the object",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "The id of the property",
+                            "examples": [
+                              "last_modified_date"
+                            ]
+                          },
+                          "key": {
+                            "type": "string",
+                            "description": "The key of the property",
+                            "examples": [
+                              "last_modified_date"
+                            ]
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "The name of the property",
+                            "examples": [
+                              "Last modified date"
+                            ]
+                          },
+                          "object": {
+                            "type": "string",
+                            "description": "The data model of the object",
+                            "examples": [
+                              "property"
+                            ]
+                          },
+                          "text": {
+                            "type": "string",
+                            "description": "The text value, if applicable",
+                            "examples": [
+                              "Some text..."
+                            ]
+                          },
+                          "number": {
+                            "type": "number",
+                            "description": "The number value, if applicable",
+                            "examples": [
+                              42
+                            ]
+                          },
+                          "select": {
+                            "type": "string",
+                            "description": "The selected tag id, if applicable",
+                            "examples": [
+                              "tag_id"
+                            ]
+                          },
+                          "multi_select": {
+                            "type": "array",
+                            "description": "The selected tag ids, if applicable",
+                            "items": {
+                              "type": "string"
+                            },
+                            "examples": [
+                              [
+                                "tag_id"
+                              ]
+                            ]
+                          },
+                          "date": {
+                            "type": "string",
+                            "description": "The date value in ISO 8601 format, if applicable",
+                            "examples": [
+                              "2025-02-14T12:34:56Z"
+                            ]
+                          },
+                          "files": {
+                            "type": "array",
+                            "description": "The file ids, if applicable",
+                            "items": {
+                              "type": "string"
+                            },
+                            "examples": [
+                              [
+                                "['file_id']"
+                              ]
+                            ]
+                          },
+                          "checkbox": {
+                            "type": "boolean",
+                            "description": "The checkbox value, if applicable",
+                            "examples": [
+                              true
+                            ]
+                          },
+                          "url": {
+                            "type": "string",
+                            "description": "The url value, if applicable",
+                            "examples": [
+                              "https://example.com"
+                            ]
+                          },
+                          "email": {
+                            "type": "string",
+                            "description": "The email value, if applicable",
+                            "examples": [
+                              "example@example.com"
+                            ]
+                          },
+                          "phone": {
+                            "type": "string",
+                            "description": "The phone number value, if applicable",
+                            "examples": [
+                              "+1234567890"
+                            ]
+                          },
+                          "objects": {
+                            "type": "array",
+                            "description": "The object ids, if applicable",
+                            "items": {
+                              "type": "string"
+                            },
+                            "examples": [
+                              [
+                                "['object_id']"
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "snippet": {
+                      "type": "string",
+                      "description": "The snippet of the object, especially important for notes as they don't have a name"
+                    },
+                    "space_id": {
+                      "type": "string",
+                      "description": "The id of the space the object is in"
+                    },
+                    "type": {
+                      "type": "object",
+                      "description": "The type of the object, or null if the type has been deleted.",
+                      "properties": {
+                        "archived": {
+                          "type": "boolean",
+                          "description": "Whether the type is archived"
+                        },
+                        "icon": {
+                          "type": "object",
+                          "description": "The icon of the object, or null if the object has no icon",
+                          "properties": {
+                            "emoji": {
+                              "type": "string",
+                              "description": "The emoji of the icon"
+                            },
+                            "format": {
+                              "type": "string",
+                              "description": "The format of the icon",
+                              "enum": [
+                                "emoji"
+                              ]
+                            }
+                          },
+                          "additionalProperties": true
+                        },
+                        "id": {
+                          "type": "string",
+                          "description": "The id of the type (which is unique across spaces)"
+                        },
+                        "key": {
+                          "type": "string",
+                          "description": "The key of the type (can be the same across spaces for known types)"
+                        },
+                        "layout": {
+                          "type": "string",
+                          "description": "The layout of the object",
+                          "enum": [
+                            "basic",
+                            "profile",
+                            "action",
+                            "note",
+                            "bookmark",
+                            "set",
+                            "collection",
+                            "participant"
+                          ]
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "The name of the type"
+                        },
+                        "object": {
+                          "type": "string",
+                          "description": "The data model of the object"
+                        },
+                        "plural_name": {
+                          "type": "string",
+                          "description": "The plural name of the type"
+                        },
+                        "properties": {
+                          "type": "array",
+                          "description": "The properties linked to the type",
+                          "items": {
+                            "type": "object",
+                            "description": "The property",
+                            "properties": {
+                              "format": {
+                                "type": "string",
+                                "description": "The format of the property used for filtering",
+                                "enum": [
+                                  "text",
+                                  "number",
+                                  "select",
+                                  "multi_select",
+                                  "date",
+                                  "files",
+                                  "checkbox",
+                                  "url",
+                                  "email",
+                                  "phone",
+                                  "objects"
+                                ]
+                              },
+                              "id": {
+                                "type": "string",
+                                "description": "The id of the property"
+                              },
+                              "key": {
+                                "type": "string",
+                                "description": "The key of the property"
+                              },
+                              "name": {
+                                "type": "string",
+                                "description": "The name of the property"
+                              },
+                              "object": {
+                                "type": "string",
+                                "description": "The data model of the object"
+                              }
+                            },
+                            "additionalProperties": true
+                          }
+                        }
+                      },
+                      "additionalProperties": true
+                    }
+                  },
+                  "additionalProperties": true
+                }
+              },
+              "additionalProperties": true,
+              "$defs": {},
+              "description": "The created object"
+            },
+            "$defs": {},
+            "description": "The updated objects"
+          }
+        },
+        {
+          "name": "update-objects-property-batch",
+          "description": "Update objects property in batch\nError Responses:\n400: Bad request\n401: Unauthorized\n404: Resource not found\n429: Rate limit exceeded\n500: Internal server error",
+          "inputSchema": {
+            "$defs": {},
+            "type": "object",
+            "properties": {
+              "space_id": {
+                "type": "string",
+                "description": "The ID of the space in which to update the objects; must be retrieved from ListSpaces endpoint"
+              },
+              "property_key": {
+                "type": "string",
+                "description": "The key of the property to update for all specified objects."
+              },
+              "value": {
+                "description": "The new value for the property. Type must match the property's format.",
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                ]
+              },
+              "object_ids": {
+                "type": "array",
+                "description": "An array of object IDs to apply the property update to.",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "space_id",
+              "property_key",
+              "value",
+              "object_ids"
+            ]
+          },
+          "outputSchema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "object": {
+                  "type": "object",
+                  "description": "The object",
+                  "properties": {
+                    "archived": {
+                      "type": "boolean",
+                      "description": "Whether the object is archived"
+                    },
+                    "icon": {
+                      "type": "object",
+                      "description": "The icon of the object, or null if the object has no icon",
+                      "properties": {
+                        "emoji": {
+                          "type": "string",
+                          "description": "The emoji of the icon"
+                        },
+                        "format": {
+                          "type": "string",
+                          "description": "The format of the icon",
+                          "enum": [
+                            "emoji"
+                          ]
+                        }
+                      },
+                      "additionalProperties": true
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "The id of the object"
+                    },
+                    "layout": {
+                      "type": "string",
+                      "description": "The layout of the object"
+                    },
+                    "markdown": {
+                      "type": "string",
+                      "description": "The markdown body of the object"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "The name of the object"
+                    },
+                    "object": {
+                      "type": "string",
+                      "description": "The data model of the object"
+                    },
+                    "properties": {
+                      "type": "array",
+                      "description": "The properties of the object",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "The id of the property",
+                            "examples": [
+                              "last_modified_date"
+                            ]
+                          },
+                          "key": {
+                            "type": "string",
+                            "description": "The key of the property",
+                            "examples": [
+                              "last_modified_date"
+                            ]
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "The name of the property",
+                            "examples": [
+                              "Last modified date"
+                            ]
+                          },
+                          "object": {
+                            "type": "string",
+                            "description": "The data model of the object",
+                            "examples": [
+                              "property"
+                            ]
+                          },
+                          "text": {
+                            "type": "string",
+                            "description": "The text value, if applicable",
+                            "examples": [
+                              "Some text..."
+                            ]
+                          },
+                          "number": {
+                            "type": "number",
+                            "description": "The number value, if applicable",
+                            "examples": [
+                              42
+                            ]
+                          },
+                          "select": {
+                            "type": "string",
+                            "description": "The selected tag id, if applicable",
+                            "examples": [
+                              "tag_id"
+                            ]
+                          },
+                          "multi_select": {
+                            "type": "array",
+                            "description": "The selected tag ids, if applicable",
+                            "items": {
+                              "type": "string"
+                            },
+                            "examples": [
+                              [
+                                "tag_id"
+                              ]
+                            ]
+                          },
+                          "date": {
+                            "type": "string",
+                            "description": "The date value in ISO 8601 format, if applicable",
+                            "examples": [
+                              "2025-02-14T12:34:56Z"
+                            ]
+                          },
+                          "files": {
+                            "type": "array",
+                            "description": "The file ids, if applicable",
+                            "items": {
+                              "type": "string"
+                            },
+                            "examples": [
+                              [
+                                "['file_id']"
+                              ]
+                            ]
+                          },
+                          "checkbox": {
+                            "type": "boolean",
+                            "description": "The checkbox value, if applicable",
+                            "examples": [
+                              true
+                            ]
+                          },
+                          "url": {
+                            "type": "string",
+                            "description": "The url value, if applicable",
+                            "examples": [
+                              "https://example.com"
+                            ]
+                          },
+                          "email": {
+                            "type": "string",
+                            "description": "The email value, if applicable",
+                            "examples": [
+                              "example@example.com"
+                            ]
+                          },
+                          "phone": {
+                            "type": "string",
+                            "description": "The phone number value, if applicable",
+                            "examples": [
+                              "+1234567890"
+                            ]
+                          },
+                          "objects": {
+                            "type": "array",
+                            "description": "The object ids, if applicable",
+                            "items": {
+                              "type": "string"
+                            },
+                            "examples": [
+                              [
+                                "['object_id']"
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "snippet": {
+                      "type": "string",
+                      "description": "The snippet of the object, especially important for notes as they don't have a name"
+                    },
+                    "space_id": {
+                      "type": "string",
+                      "description": "The id of the space the object is in"
+                    },
+                    "type": {
+                      "type": "object",
+                      "description": "The type of the object, or null if the type has been deleted.",
+                      "properties": {
+                        "archived": {
+                          "type": "boolean",
+                          "description": "Whether the type is archived"
+                        },
+                        "icon": {
+                          "type": "object",
+                          "description": "The icon of the object, or null if the object has no icon",
+                          "properties": {
+                            "emoji": {
+                              "type": "string",
+                              "description": "The emoji of the icon"
+                            },
+                            "format": {
+                              "type": "string",
+                              "description": "The format of the icon",
+                              "enum": [
+                                "emoji"
+                              ]
+                            }
+                          },
+                          "additionalProperties": true
+                        },
+                        "id": {
+                          "type": "string",
+                          "description": "The id of the type (which is unique across spaces)"
+                        },
+                        "key": {
+                          "type": "string",
+                          "description": "The key of the type (can be the same across spaces for known types)"
+                        },
+                        "layout": {
+                          "type": "string",
+                          "description": "The layout of the object",
+                          "enum": [
+                            "basic",
+                            "profile",
+                            "action",
+                            "note",
+                            "bookmark",
+                            "set",
+                            "collection",
+                            "participant"
+                          ]
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "The name of the type"
+                        },
+                        "object": {
+                          "type": "string",
+                          "description": "The data model of the object"
+                        },
+                        "plural_name": {
+                          "type": "string",
+                          "description": "The plural name of the type"
+                        },
+                        "properties": {
+                          "type": "array",
+                          "description": "The properties linked to the type",
+                          "items": {
+                            "type": "object",
+                            "description": "The property",
+                            "properties": {
+                              "format": {
+                                "type": "string",
+                                "description": "The format of the property used for filtering",
+                                "enum": [
+                                  "text",
+                                  "number",
+                                  "select",
+                                  "multi_select",
+                                  "date",
+                                  "files",
+                                  "checkbox",
+                                  "url",
+                                  "email",
+                                  "phone",
+                                  "objects"
+                                ]
+                              },
+                              "id": {
+                                "type": "string",
+                                "description": "The id of the property"
+                              },
+                              "key": {
+                                "type": "string",
+                                "description": "The key of the property"
+                              },
+                              "name": {
+                                "type": "string",
+                                "description": "The name of the property"
+                              },
+                              "object": {
+                                "type": "string",
+                                "description": "The data model of the object"
+                              }
+                            },
+                            "additionalProperties": true
+                          }
+                        }
+                      },
+                      "additionalProperties": true
+                    }
+                  },
+                  "additionalProperties": true
+                }
+              },
+              "additionalProperties": true,
+              "$defs": {},
+              "description": "The created object"
+            },
+            "$defs": {},
+            "description": "The updated objects"
+          }
         }
       ]
     }
