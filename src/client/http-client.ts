@@ -8,6 +8,7 @@ import { isFileUploadParameter } from "../openapi/file-upload";
 
 export type HttpClientConfig = {
   baseUrl: string;
+  apiKey?: string;
   headers?: Record<string, string>;
 };
 

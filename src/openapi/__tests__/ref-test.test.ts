@@ -53,6 +53,6 @@ describe('OpenAPI Reference Resolution', () => {
     const { tools } = converter.convertToMCPTools();
     const tool = tools['API'].methods.find(m => m.name === 'testOp');
     expect(tool).toBeDefined();
-    expect(tool.inputSchema.properties.name).toBeDefined();
+    expect(tool?.inputSchema.properties?.name).toBeDefined();
   });
 });

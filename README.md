@@ -219,6 +219,16 @@ async function updatePropertyForMultipleObjects() {
 }
 ```
 
+## Batch Operations
+
+This server supports batch operations for creating, updating objects and updating properties of multiple objects. This can be useful for managing a large number of objects efficiently.
+
+The following batch operations are available:
+
+- `create_objects_batch`: Creates multiple objects in a single request.
+- `update_objects_batch`: Updates multiple objects in a single request.
+- `update_objects_property_batch`: Updates a specific property for multiple objects in a single request.
+
 ## Development
 
 ### Installation from Source
